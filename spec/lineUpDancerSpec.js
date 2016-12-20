@@ -13,8 +13,8 @@ describe('blinkyDancer', function() {
 
   it('should call all dancer\'s lineUp method', function() {
     sinon.spy(blinkyDancer, 'lineUp');
-    simon.spy(bouncyDancer, 'lineUp');
-    simon.spy(randomColorDancer, 'lineUp');
+    sinon.spy(bouncyDancer, 'lineUp');
+    sinon.spy(randomColorDancer, 'lineUp');
     lineUpDancers();
 
     expect(blinkyDancer.lineUp.called).to.be.true;
