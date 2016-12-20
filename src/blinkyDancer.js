@@ -22,7 +22,7 @@
 
 
 
-class makeBlinkyDancer extends makeDancer {
+var makeBlinkyDancer = class extends makeDancer {
   constructor(top, left, timeBetweenSteps) {
 
     super(top, left, timeBetweenSteps);
@@ -40,4 +40,4 @@ class makeBlinkyDancer extends makeDancer {
     // other effects you can use on a jQuery-wrapped html tag.
     this.$node.toggle();
   }
-}
+};
