@@ -60,4 +60,10 @@ class makeDancer {
     };
     this.$node.css(styleSettings);
   }
+
+  lineUp(top, left) {
+    let myHeight = this.$node.height();
+
+    this.setPosition(top - myHeight / 2.0, left);
+  }
 }
