@@ -41,7 +41,10 @@ class makeDancer {
     this.step();
 
     // this one sets the position to some random default point within the body    
-    this.setPosition(top, left);     
+    this.setPosition(top, left);    
+
+    this._setAsRandomImage();
+
   }
 
   step() {
@@ -61,9 +64,35 @@ class makeDancer {
     this.$node.css(styleSettings);
   }
 
+  _setAsRandomImage() {
+    let listOfDancerSprite = [];
+    listOfDancerSprite.push('./img/cacodemon.gif');
+    listOfDancerSprite.push('./img/cyberdemon.gif');
+    listOfDancerSprite.push('./img/doomGuy.gif');
+    listOfDancerSprite.push('./img/imp.gif');
+    listOfDancerSprite.push('./img/mancubus.gif');
+    listOfDancerSprite.push('./img/revenant.gif');
+    listOfDancerSprite.push('./img/spidermastermind.gif');
+    listOfDancerSprite.push('./img/wolfensteinSS.gif');
+
+    var randomImageNum = function() {
+      return Math.floor(Math.random() * listOfDancerSprite.length);
+    };
+
+    this.setAsImage(listOfDancerSprite[randomImageNum()]); 
+  }
+
+  setAsImage(imageURL) {
+    //this.$node.css('background-image', 'url("' + imageURL + '")');
+    this.$node.css('border-style', 'none');
+    this.$node.html('<img src="' + imageURL + '" />');
+
+  }
+
   lineUp(top, left) {
     let myHeight = this.$node.height();
+    let myWidth = this.$node.width();
 
-    this.setPosition(top - myHeight / 2.0, left);
+    this.setPosition(top - myHeight / 2.0, left - myWidth / 2.0);
   }
 }
