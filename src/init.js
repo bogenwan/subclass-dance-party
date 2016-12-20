@@ -27,7 +27,9 @@ $(document).ready(function() {
       $('body').width() * Math.random(),
       Math.random() * 1000
     );
+
     $('body').append(dancer.$node);
+
     window.dancers.push(dancer);
   });
 
@@ -36,7 +38,7 @@ $(document).ready(function() {
     var dancerActionFunctionName = $(this).data('dance-action-function-name');
 
     var dancerActionFunction = window[dancerActionFunctionName];
-    
+
     dancerActionFunction();
 
   });
