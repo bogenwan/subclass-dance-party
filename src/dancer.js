@@ -89,9 +89,17 @@ class makeDancer {
 
   }
 
-  lineUp(top, left) {
+  lineUp(top, left, duration) {
+    if (duration === undefined) {
+      duration = '1s';
+    }
+
     let myHeight = this.$node.height();
     let myWidth = this.$node.width();
+
+    this.$node.css('transition-property', 'top, left');
+
+    this.$node.css('transition-duration', duration);
 
     this.setPosition(top - myHeight / 2.0, left - myWidth / 2.0);
   }
