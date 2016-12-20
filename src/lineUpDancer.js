@@ -3,7 +3,7 @@ var lineUpDancers = function() {
 
   window.dancers.forEach((dancer, i) => {
     let newTopPos = screen.availHeight / 2.0;
-    let newLeftPos = (screen.availWidth / numberOfDancers + 1) * (i + 1);
+    let newLeftPos = (screen.availWidth / numberOfDancers + 1) * (i + 0.5);
     dancer.lineUp(newTopPos, newLeftPos);
   });
 };

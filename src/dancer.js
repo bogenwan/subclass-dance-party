@@ -45,12 +45,52 @@ class makeDancer {
 
     this._setAsRandomImage();
 
+    this._allowToWander = true;
+
   }
 
   step() {
     // the basic dancer doesn't do anything interesting at all on each step,
     // it just schedules the next step
     setTimeout(this.step.bind(this), this.timeBetweenSteps);
+    if (this._allowToWander) {
+      //this.wander();
+
+    }
+    this.randomSize();
+  }
+
+  wander(distance, velocity) {
+    if (distance === undefined) {
+      distance = 100;
+    }
+
+    if (velocity === undefined) {
+      velocity = 3;
+    }
+
+
+    let myHeight = this.$node.height();
+    let myWidth = this.$node.width();
+
+    let maxAllowableTop = screen.availHeight - myHeight * 2;
+    let maxAllowableLeft = screen.availWidth - myWidth * 2;
+
+
+    var getRandomInt = function (min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min)) + min;
+    };
+
+    let myNewTop = getRandomInt(0, maxAllowableLeft);
+    let myNewLeft = getRandomInt(0, maxAllowableTop);
+
+    this.$node.css('transition-property', 'top, left');
+    this.$node.css('transition-duration', (distance / velocity) + 's');
+
+    this.setPosition(myNewTop, myNewLeft);    
+
   }
 
   setPosition(top, left) {
@@ -86,7 +126,8 @@ class makeDancer {
     //this.$node.css('background-image', 'url("' + imageURL + '")');
     this.$node.css('border-style', 'none');
     this.$node.html('<img src="' + imageURL + '" />');
-
+    this._originalHeight = this.$node.height();
+    this._originalWidth = this.$node.width();
   }
 
   lineUp(top, left, duration) {
@@ -94,13 +135,24 @@ class makeDancer {
       duration = '1s';
     }
 
+    this._allowToWander = false;
+
     let myHeight = this.$node.height();
     let myWidth = this.$node.width();
 
     this.$node.css('transition-property', 'top, left');
-
     this.$node.css('transition-duration', duration);
 
     this.setPosition(top - myHeight / 2.0, left - myWidth / 2.0);
   }
+
+  randomSize() {
+    var randomSizeNum = function() {
+      return Math.random() * 2;
+    };
+    let randomSizeFactor = randomSizeNum();
+    this.$node.height(randomSizeFactor * this._originalHeight);
+    this.$node.width(randomSizeFactor * this._originalWidth);
+  }
+
 }
