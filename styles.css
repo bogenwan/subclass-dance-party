@@ -2,6 +2,8 @@ body, html{
   height:100%;
 }
 body{
+  background-image: url('./img/doomBackground.jpg');
+  background-size: cover;
   margin: 0px;
   background-color:#444;
   font-size: 18px;
@@ -34,4 +36,12 @@ body, a:link, a:visited, a:active{
   border:10px solid red;
   border-radius:10px;
   position:absolute;
+}
+
+#doomDJ{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
 }
