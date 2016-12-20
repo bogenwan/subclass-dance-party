@@ -14,11 +14,11 @@ var makeRandomColorDancer = class extends makeDancer {
     // toggle() is a jQuery method to show/hide the <span> tag.
     // See http://api.jquery.com/category/effects/ for this and
     // other effects you can use on a jQuery-wrapped html tag.
-    var randomNum = function() {
-      return Math.floor(Math.random() * 255);
+    var randomHueRotateNum = function() {
+      return Math.floor(Math.random() * 359);
     };
 
-    this.$node.css('border-color', 'rgb(' + randomNum() + ', ' + randomNum() + ', ' + randomNum() + ')');
+    this.$node.css('filter', 'hue-rotate(' + randomHueRotateNum() + 'deg)');
 
   }
 };
