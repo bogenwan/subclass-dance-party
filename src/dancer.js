@@ -39,11 +39,13 @@ class makeDancer {
     // use jQuery to create an HTML <span> tag
     this.$node = $('<span class="dancer"></span>');
     this._setAsRandomImage();
-    this.step();
+
 
     // this one sets the position to some random default point within the body    
     this.setPosition(top, left);    
     this._allowToWander = true;
+
+    this.step();
 
   }
 
@@ -56,6 +58,7 @@ class makeDancer {
 
     }
     this.randomSize();
+    this.rotateIfCollide();
   }
 
   wander(distance, velocity) {
@@ -85,14 +88,18 @@ class makeDancer {
     let myOldTop = this.$node.position().top;
     let myOldLeft = this.$node.position().left;
 
+    if (myOldTop === 0 && myOldLeft === 0) {
+      return;
+    }
+
     let myNewTop = Math.max(minAllowableTop, Math.min(maxAllowableTop, myOldTop + getRandomInt(-1 * distance, distance)));
-    let myNewLeft = myOldLeft + getRandomInt(-1 * distance, distance);
+    let myNewLeft = Math.min(maxAllowableLeft, Math.max(0, myOldLeft + getRandomInt(-1 * distance, distance)));
 
     this.$node.css('transition-property', 'top, left');
     this.$node.css('transition-duration', '1s');
 
 
-    this.setPosition(myNewTop, myNewLeft);    
+    this.setPosition(myNewTop, myNewLeft);
 
   }
 
@@ -169,7 +176,28 @@ class makeDancer {
     if (this._originalHeight !== undefined && this._originalHeight !== 0) {
       this.$node.css('transform', 'scale(' + randomSizeFactor + ',' + randomSizeFactor + ')');
     }
+  }
 
+  rotateIfCollide() {
+    let myTop = this.$node.position().top;
+    let myLeft = this.$node.position().left;
+    let minDistance = screen.availWidth;
+
+    for (var i = 0; i < window.dancers.length; i++) {
+      if (window.dancers[i] !== this) {
+        var otherTop = window.dancers[i].$node.position().top;
+        var otherLeft = window.dancers[i].$node.position().left;
+        var distance = Math.pow(Math.pow((myLeft - otherLeft), 2) + Math.pow((myTop - otherTop), 2), 0.5);
+        minDistance = Math.min(minDistance, distance);
+      }
+    }
+    if (minDistance < this.$node.width()) {
+      console.log('collide');
+      this.$node.css('transition-property', 'transform, top, left, height, width');
+      this.$node.css('transition-duration', '0.7s');
+      this.$node.css('transform', 'rotate(180deg)');
+      // this.$node.css('animation', 'spin 1.5s linear infinite');
+    } 
   }
 
 }
