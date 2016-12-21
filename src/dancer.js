@@ -38,13 +38,11 @@ class makeDancer {
 
     // use jQuery to create an HTML <span> tag
     this.$node = $('<span class="dancer"></span>');
+    this._setAsRandomImage();
     this.step();
 
     // this one sets the position to some random default point within the body    
     this.setPosition(top, left);    
-
-    this._setAsRandomImage();
-
     this._allowToWander = true;
 
   }
@@ -54,7 +52,7 @@ class makeDancer {
     // it just schedules the next step
     setTimeout(this.step.bind(this), this.timeBetweenSteps);
     if (this._allowToWander) {
-      //this.wander();
+      this.wander();
 
     }
     this.randomSize();
@@ -73,6 +71,7 @@ class makeDancer {
     let myHeight = this.$node.height();
     let myWidth = this.$node.width();
 
+    let minAllowableTop = screen.availHeight * 0.6;
     let maxAllowableTop = screen.availHeight - myHeight * 2;
     let maxAllowableLeft = screen.availWidth - myWidth * 2;
 
@@ -83,11 +82,15 @@ class makeDancer {
       return Math.floor(Math.random() * (max - min)) + min;
     };
 
-    let myNewTop = getRandomInt(0, maxAllowableLeft);
-    let myNewLeft = getRandomInt(0, maxAllowableTop);
+    let myOldTop = this.$node.position().top;
+    let myOldLeft = this.$node.position().left;
+
+    let myNewTop = Math.max(minAllowableTop, Math.min(maxAllowableTop, myOldTop + getRandomInt(-1 * distance, distance)));
+    let myNewLeft = myOldLeft + getRandomInt(-1 * distance, distance);
 
     this.$node.css('transition-property', 'top, left');
-    this.$node.css('transition-duration', (distance / velocity) + 's');
+    this.$node.css('transition-duration', '1s');
+
 
     this.setPosition(myNewTop, myNewLeft);    
 
@@ -125,9 +128,9 @@ class makeDancer {
   setAsImage(imageURL) {
     //this.$node.css('background-image', 'url("' + imageURL + '")');
     this.$node.css('border-style', 'none');
-    this.$node.html('<img src="' + imageURL + '" />');
-    this._originalHeight = this.$node.height();
-    this._originalWidth = this.$node.width();
+    let imageTageHTML = '<img src="' + imageURL + '" />';
+    this.$node.html(imageTageHTML);
+    this.$image = $(this.$node.children()[0]);
   }
 
   lineUp(top, left, duration) {
@@ -147,12 +150,26 @@ class makeDancer {
   }
 
   randomSize() {
+    if (this._originalHeight === undefined || this._originalHeight === 0) {
+      this._originalHeight = this.$node.height();
+      this._originalWidth = this.$node.width();
+    }
+
     var randomSizeNum = function() {
-      return Math.random() * 2;
+      return Math.random() * 1;
     };
-    let randomSizeFactor = randomSizeNum();
-    this.$node.height(randomSizeFactor * this._originalHeight);
-    this.$node.width(randomSizeFactor * this._originalWidth);
+    let randomSizeFactor = 0.6 + randomSizeNum();
+
+    this.$node.css('transition-property', 'transform, top, left, height, width');
+    this.$node.css('transition-duration', '1s');
+
+    this.$image.css('height', '100%');
+    this.$image.css('width', '100%');
+
+    if (this._originalHeight !== undefined && this._originalHeight !== 0) {
+      this.$node.css('transform', 'scale(' + randomSizeFactor + ',' + randomSizeFactor + ')');
+    }
+
   }
 
 }
