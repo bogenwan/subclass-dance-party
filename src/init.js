@@ -38,8 +38,6 @@ $(document).ready(function() {
       } else {
         $(this).css('transform', 'translateX(200px)');       
       }
-
-      console.log('mouseover');
     });
 
     window.dancers.push(dancer);

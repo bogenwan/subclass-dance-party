@@ -192,11 +192,10 @@ class makeDancer {
       }
     }
     if (minDistance < this.$node.width()) {
-      console.log('collide');
+      //console.log('collide');
       this.$node.css('transition-property', 'transform, top, left, height, width');
       this.$node.css('transition-duration', '0.7s');
       this.$node.css('transform', 'rotate(180deg)');
-      // this.$node.css('animation', 'spin 1.5s linear infinite');
     } 
   }
 
